@@ -24,6 +24,12 @@ class MonsterTest extends \PHPUnit_Framework_TestCase
         $this->_monster->setSpecies(array('value'));
     }
 
+    public function testSetSpeciesWithNull()
+    {
+        $this->setExpectedException('InvalidArgumentException', 'Species must be a non empty string');
+        $this->_monster->setSpecies(null);
+    }
+
     public function testSetAndGetSpecies()
     {
         $this->_monster->setSpecies('abra');
