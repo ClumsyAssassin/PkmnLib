@@ -1,6 +1,6 @@
 <?php
 
-namespace Pkmn;
+namespace Pkmn\Domain;
 
 class MonsterTest extends \PHPUnit_Framework_TestCase
 {
@@ -38,7 +38,7 @@ class MonsterTest extends \PHPUnit_Framework_TestCase
 
     public function testGetSpeciesWithSpeciesNotSpecified()
     {
-        $this->setExpectedException('Pkmn\Exception\SpeciesNotSpecified');
+        $this->setExpectedException('Pkmn\Domain\Exception\SpeciesNotSpecified');
         $this->_monster->getSpecies();
     }
 }

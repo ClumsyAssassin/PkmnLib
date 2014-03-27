@@ -1,6 +1,6 @@
 <?php
 
-namespace Pkmn\Exception;
+namespace Pkmn\Domain\Exception;
 
 class SpeciesNotSpecified extends \InvalidArgumentException
 {

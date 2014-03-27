@@ -1,8 +1,8 @@
 <?php
 
-namespace Pkmn;
+namespace Pkmn\Domain;
 
-use Pkmn\Exception\SpeciesNotSpecified;
+use Pkmn\Domain\Exception\SpeciesNotSpecified;
 
 class Monster
 {
