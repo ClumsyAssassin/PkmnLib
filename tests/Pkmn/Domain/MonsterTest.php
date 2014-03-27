@@ -9,7 +9,7 @@ class MonsterTest extends \PHPUnit_Framework_TestCase
 
     public function setup()
     {
-        $this->_monster = new Monster();
+        $this->_monster = $this->getMockForAbstractClass('Pkmn\Domain\Monster');
     }
 
     public function testSetSpeciesWithEmptyString()
@@ -70,6 +70,25 @@ class MonsterTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('Pkmn\Domain\Exception\GenderNotSpecified');
         $this->_monster->getGender();
+    }
+
+    public function testIsLegendary()
+    {
+        $this->assertFalse($this->_monster->isLegendary());
+        $this->_monster->setLegendary(true);
+        $this->assertTrue($this->_monster->isLegendary());
+    }
+
+    public function testSetLegendaryWithNull()
+    {
+        $this->setExpectedException('InvalidArgumentException');
+        $this->_monster->setLegendary(null);
+    }
+
+    public function testGetGenerationWhenNotSpecified()
+    {
+        $this->setExpectedException('Pkmn\Domain\Exception\GenerationNotSpecified');
+        $this->_monster->getGeneration();
     }
 }
  
