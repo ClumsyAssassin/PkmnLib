@@ -13,16 +13,10 @@ class Gen2Monster extends Monster
      */
     public function canBreedWith(Monster $partner)
     {
-
-
         // 1. Generation issues (cannot breed with pokemon i cant transfer to)
         // 2. If legendary -> no
         // 3. If self/partner is ditto -> yes
         // 4. If im male/female, partner female/male, neither is baby, and share an egg group -> yes
-        // Gen2 to Gen3 -> yes
-        // Gen3 to Gen4 -> yes
-        // Gen4 to Gen5 -> yes
-        // Gen5 to Gen6 -> yes
     }
 
     /**

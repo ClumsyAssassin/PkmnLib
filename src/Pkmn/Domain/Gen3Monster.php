@@ -2,10 +2,10 @@
 
 namespace Pkmn\Domain;
 
-class Gen1Monster extends Monster
+class Gen3Monster extends Monster
 {
     /** @var int */
-    protected $_generation = 1;
+    protected $_generation = 3;
 
     /**
      * @param Monster $partner
@@ -13,7 +13,13 @@ class Gen1Monster extends Monster
      */
     public function canBreedWith(Monster $partner)
     {
-        return false;
+
+
+        // 1. Generation issues (cannot breed with pokemon i cant transfer to)
+        // 2. If legendary -> no
+        // 3. If self/partner is ditto -> yes
+        // 4. If im male/female, partner female/male, neither is baby, and share an egg group -> yes
+
     }
 
     /**
@@ -26,6 +32,6 @@ class Gen1Monster extends Monster
         if(!is_int($generation)) {
             throw new \InvalidArgumentException('Generation must be an integer');
         }
-        return ($generation == $this->_generation || $generation == 2);
+        return ($generation == $this->_generation);
     }
 } 
