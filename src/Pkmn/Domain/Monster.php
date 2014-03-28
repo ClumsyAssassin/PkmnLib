@@ -11,6 +11,7 @@ abstract class Monster
     const MALE = 'male';
     const FEMALE = 'female';
     const GENDERLESS = 'genderless';
+    const LATEST_GENERATION = 6;
 
     /** @var array */
     private static $_validGenders = array(self::MALE, self::FEMALE, self::GENDERLESS);
@@ -27,17 +28,21 @@ abstract class Monster
     /** @var int */
     protected $_generation;
 
-    /**
-     * @param Monster $partner
-     * @return boolean
-     */
-    public abstract function canBreedWith(Monster $partner);
+    /** @var int  */
+    protected $_lastGenerationCanTransferTo = self::LATEST_GENERATION;
 
     /**
      * @param int $generation
+     * @throws \InvalidArgumentException
      * @return boolean
      */
-    public abstract function canTransferTo($generation);
+    public function canTransferTo($generation)
+    {
+        if(!is_int($generation)) {
+            throw new \InvalidArgumentException('Generation must be an integer');
+        }
+        return ($generation >= $this->getGeneration() && $generation <= $this->_lastGenerationCanTransferTo);
+    }
 
     /**
      * @throws Exception\GenerationNotSpecified

@@ -18,18 +18,16 @@ class Gen2MonsterTest extends \PHPUnit_Framework_TestCase
         $this->_monster->canTransferTo(null);
     }
 
-    public function testCanTransferToGen1()
+    public function testCanTransferToGenerations()
     {
-        $this->assertFalse($this->_monster->canTransferTo(1));
-    }
-
-    public function testCanTransferToGen2()
-    {
-        $this->assertTrue($this->_monster->canTransferTo(2));
-    }
-
-    public function testCanTransferToGen3()
-    {
-        $this->assertFalse($this->_monster->canTransferTo(3));
+        for ($i = 1; $i < $this->_monster->getGeneration(); $i++) {
+            $this->assertFalse($this->_monster->canTransferTo($i));
+        }
+        $this->assertTrue($this->_monster->canTransferTo($this->_monster->getGeneration()));
+        if (Monster::LATEST_GENERATION > $this->_monster->getGeneration()) {
+            for ($i = $this->_monster->getGeneration() + 1; $i <= Monster::LATEST_GENERATION; $i++) {
+                $this->assertFalse($this->_monster->canTransferTo($i));
+            }
+        }
     }
 }

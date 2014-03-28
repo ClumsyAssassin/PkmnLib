@@ -2,14 +2,14 @@
 
 namespace Pkmn\Domain;
 
-class Gen3MonsterTest extends \PHPUnit_Framework_TestCase
+class Gen6MonsterTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Gen3Monster */
+    /** @var Gen6Monster */
     private $_monster;
 
     public function setup()
     {
-        $this->_monster = new Gen3Monster();
+        $this->_monster = new Gen6Monster();
     }
 
     public function testCanTransferWithNull()
@@ -28,3 +28,4 @@ class Gen3MonsterTest extends \PHPUnit_Framework_TestCase
         }
     }
 }
+ 

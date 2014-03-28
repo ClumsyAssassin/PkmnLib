@@ -90,5 +90,11 @@ class MonsterTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('Pkmn\Domain\Exception\GenerationNotSpecified');
         $this->_monster->getGeneration();
     }
+
+    public function testCanTransferToWithAnotherGen()
+    {
+        $this->setExpectedException('Pkmn\Domain\Exception\GenerationNotSpecified');
+        $this->_monster->canTransferTo(6);
+    }
 }
  
