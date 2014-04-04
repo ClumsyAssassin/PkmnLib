@@ -4,97 +4,85 @@ namespace Pkmn\Domain;
 
 class MonsterTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var  Monster */
-    private $_monster;
-
-    public function setup()
+    public function testMonsterNameIsName()
     {
-        $this->_monster = $this->getMockForAbstractClass('Pkmn\Domain\Monster');
+        $monster = new Monster('name', 'male', 1, array('monster'));
+        $this->assertEquals('name', $monster->getName());
     }
 
-    public function testSetSpeciesWithEmptyString()
+    public function testCreateMonsterWithInvalidName()
     {
-        $this->setExpectedException('InvalidArgumentException', 'Species must be a non empty string');
-        $this->_monster->setSpecies('');
+        $this->setExpectedException('InvalidArgumentException', "Name '343' must be a string");
+        new Monster(343, 'male', 1, array('monster'));
     }
 
-    public function testSetSpeciesWithArray()
+    public function testCreateMonsterWithInvalidGeneration()
     {
-        $this->setExpectedException('InvalidArgumentException', 'Species must be a non empty string');
-        $this->_monster->setSpecies(array('value'));
+        $this->setExpectedException('InvalidArgumentException', "Generation 'notInt' must be an integer");
+        new Monster('name', 'male', 'notInt', array('monster'));
     }
 
-    public function testSetSpeciesWithNull()
+    public function testCreateMonstersWithValidGenders()
     {
-        $this->setExpectedException('InvalidArgumentException', 'Species must be a non empty string');
-        $this->_monster->setSpecies(null);
+        $this->_assertGenderIsValid(Monster::MALE);
+        $this->_assertGenderIsValid(Monster::FEMALE);
+        $this->_assertGenderIsValid(Monster::GENDERLESS);
     }
 
-    public function testSetAndGetSpecies()
+    public function testCreateMonsterWithInvalidGender()
     {
-        $this->_monster->setSpecies('abra');
-        $this->assertEquals('abra', $this->_monster->getSpecies());
+        $this->setExpectedException('InvalidArgumentException', "Gender 'invalidGender' is invalid");
+        new Monster('name', 'invalidGender', 1, array('monster'));
     }
 
-    public function testGetSpeciesWithSpeciesNotSpecified()
-    {
-        $this->setExpectedException('Pkmn\Domain\Exception\SpeciesNotSpecified');
-        $this->_monster->getSpecies();
-    }
-
-    public function testSetGenderWithMale()
-    {
-        $this->_monster->setGender(Monster::MALE);
-        $this->assertEquals(Monster::MALE, $this->_monster->getGender());
-    }
-
-    public function testSetGenderWithFemale()
-    {
-        $this->_monster->setGender(Monster::FEMALE);
-        $this->assertEquals(Monster::FEMALE, $this->_monster->getGender());
-    }
-
-    public function testSetGenderWithGenderless()
-    {
-        $this->_monster->setGender(Monster::GENDERLESS);
-        $this->assertEquals(Monster::GENDERLESS, $this->_monster->getGender());
-    }
-
-    public function testSetGenderWithNotKnownGender()
+    public function testCreateMonsterWithInvalidEggGroup()
     {
         $this->setExpectedException('InvalidArgumentException');
-        $this->_monster->setGender('this is not a valid gender');
+        new Monster('name', 'male', 1, array('badEggGroup', "Egg group 'badEggGroup' is invalid"));
     }
 
-    public function testGetGenderWhenGenderNotSpecified()
+    public function testCreateMonsterWithMoreThanTwoEggGroupsShouldFail()
     {
-        $this->setExpectedException('Pkmn\Domain\Exception\GenderNotSpecified');
-        $this->_monster->getGender();
+        $this->setExpectedException('InvalidArgumentException', "Number of egg groups is more than max " . Monster::MAX_NUM_EGG_GROUPS);
+        new Monster('name', 'male', 1, array('monster', 'water1', 'water2'));
     }
 
-    public function testIsLegendary()
+    public function testCreateMonsterWithNoEggGroupsShouldFail()
     {
-        $this->assertFalse($this->_monster->isLegendary());
-        $this->_monster->setLegendary(true);
-        $this->assertTrue($this->_monster->isLegendary());
+        $this->setExpectedException('InvalidArgumentException', "Number of egg groups is less than min " . Monster::MIN_NUM_EGG_GROUPS);
+        new Monster('name', 'male', 1, array());
     }
 
-    public function testSetLegendaryWithNull()
+    public function testCreateMonsterThatHasDittoEggGroupButIsNotNamedDitto()
     {
-        $this->setExpectedException('InvalidArgumentException');
-        $this->_monster->setLegendary(null);
+        $this->setExpectedException('InvalidArgumentException', "Ditto egg group can only be assigned to monster named Ditto");
+        new Monster('name', 'genderless', 1, array('ditto'));
     }
 
-    public function testGetGenerationWhenNotSpecified()
+    public function testCreateMonsterWithMoreThanDittoEggGroupShouldFail()
     {
-        $this->setExpectedException('Pkmn\Domain\Exception\GenerationNotSpecified');
-        $this->_monster->getGeneration();
+        $this->setExpectedException('InvalidArgumentException', "Ditto egg group cannot be combined with another egg group");
+        new monster('Ditto', 'genderless', 1, array('ditto', 'monster'));
     }
 
-    public function testCanTransferToWithAnotherGen()
+    public function testCreateMonsterThatIsDittoShouldBeGenderless()
     {
-        $this->setExpectedException('Pkmn\Domain\Exception\GenerationNotSpecified');
-        $this->_monster->canTransferTo(6);
+        $this->setExpectedException('InvalidArgumentException', "Ditto egg group can only be assigned to genderless monster");
+        new monster('Ditto', 'male', 1, array('ditto'));
+    }
+
+    public function testCreateMonsterWithMoreThanUndiscoveredEggGroupShouldFail()
+    {
+        $this->setExpectedException('InvalidArgumentException', "Undiscovered egg group cannot be combined with another egg group");
+        new monster('name', 'genderless', 1, array('undiscovered', 'monster'));
+    }
+
+    /**
+     * @param string $gender
+     */
+    private function _assertGenderIsValid($gender)
+    {
+        $monster = new Monster('name', $gender, 1, array('monster'));
+        $this->assertEquals($gender, $monster->getGender());
     }
 }
- 
