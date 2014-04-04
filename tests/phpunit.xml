@@ -8,5 +8,8 @@
         <testsuite name="Pkmn_Suite">
             <directory>Pkmn</directory>
         </testsuite>
+        <testsuite name="Base Suite">
+            <directory>Base</directory>
+        </testsuite>
     </testsuites>
 </phpunit>

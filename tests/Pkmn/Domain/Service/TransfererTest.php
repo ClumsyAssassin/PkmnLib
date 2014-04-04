@@ -1,6 +1,6 @@
 <?php
 
-namespace Pkmn\Domain;
+namespace Pkmn\Domain\Service;
 
 class TransfererTest extends \PHPUnit_Framework_TestCase
 {

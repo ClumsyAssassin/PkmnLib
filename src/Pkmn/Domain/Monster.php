@@ -21,7 +21,7 @@ class Monster
     /** @var int */
     private $_generation;
 
-    /** @var array */
+    /** @var EggGroupCollection */
     private $_eggGroups;
 
     /** @var array */
@@ -31,10 +31,10 @@ class Monster
      * @param string $name
      * @param Gender $gender
      * @param int $generation
-     * @param array $eggGroups
-     * @param array $types
+     * @param EggGroupCollection $eggGroups
+     * @param TypeCollection $types
      */
-    public function __construct($name, Gender $gender, $generation, array $eggGroups, array $types)
+    public function __construct($name, Gender $gender, $generation, EggGroupCollection $eggGroups, TypeCollection $types)
     {
         $this->_assertParametersAreValid($name, $gender, $generation, $eggGroups, $types);
 
@@ -83,18 +83,6 @@ class Monster
     }
 
     /**
-     * @param array $eggGroups
-     * @throws InvalidArgumentException
-     */
-    private function _assertValidEggGroups(array $eggGroups)
-    {
-        foreach ($eggGroups as $eggGroup) {
-            if ($eggGroup instanceof EggGroup)
-                throw new InvalidArgumentException("Egg group '{$eggGroup}' is not an egg group");
-        }
-    }
-
-    /**
      * @param string $name
      * @param Gender $gender
      * @param array $eggGroups
@@ -124,11 +112,11 @@ class Monster
      * @param string $name
      * @param Gender $gender
      * @param int $generation
-     * @param array $eggGroups
-     * @param array $types
-     * @throws InvalidArgumentException
+     * @param EggGroupCollection $eggGroups
+     * @param TypeCollection $types
+     * @throws \InvalidArgumentException
      */
-    private function _assertParametersAreValid($name, Gender $gender, $generation, array $eggGroups, array $types)
+    private function _assertParametersAreValid($name, Gender $gender, $generation, EggGroupCollection $eggGroups, TypeCollection $types)
     {
         if (!is_string($name))
             throw new InvalidArgumentException("Name '{$name}' must be a string");
@@ -137,15 +125,12 @@ class Monster
             throw new InvalidArgumentException("Generation '{$generation}' must be an integer");
 
         $this->_assertTypesWithinBounds($types);
-        $this->_assertValidTypes($types);
 
         $this->_assertEggGroupsWithinBounds($eggGroups);
         if (in_array(EggGroup::EGG_GROUP_DITTO, $eggGroups))
             $this->_assertValidDitto($name, $gender, $eggGroups);
         elseif (in_array(EggGroup::EGG_GROUP_UNDISCOVERED, $eggGroups))
             $this->_assertValidUndiscovered($eggGroups);
-        else
-            $this->_assertValidEggGroups($eggGroups);
     }
 
     /**
@@ -159,16 +144,5 @@ class Monster
             throw new InvalidArgumentException("Number of types is more than max " . self::MAX_NUM_TYPES);
         else if ($numTypes < self::MIN_NUM_TYPES)
             throw new InvalidArgumentException("Number of types is less than min " . self::MIN_NUM_TYPES);
-    }
-
-    /**
-     * @param array $types
-     * @throws \InvalidArgumentException
-     */
-    private function _assertValidTypes(array $types)
-    {
-        foreach ($types as $type)
-            if ($type instanceof Type)
-                throw new InvalidArgumentException("Type '{$type}' is not an instance of Type");
     }
 }

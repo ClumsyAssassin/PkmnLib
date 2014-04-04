@@ -3,6 +3,7 @@
 namespace Pkmn\Domain;
 
 use InvalidArgumentException;
+use Pkmn\Exception\InvalidType;
 
 class Type
 {
@@ -42,7 +43,7 @@ class Type
     public function __construct($type)
     {
         if (!in_array($type, static::$_validTypes))
-            throw new InvalidArgumentException("Type '{$type}' is invalid");
+            throw new InvalidType($type);
         $this->_type = $type;
     }
 

@@ -2,6 +2,8 @@
 
 namespace Pkmn\Domain;
 
+use Pkmn\Exception\InvalidEggGroup;
+
 class EggGroup
 {
     const EGG_GROUP_MONSTER = 'monster';
@@ -37,7 +39,7 @@ class EggGroup
     public function __construct($eggGroup)
     {
         if (in_array($eggGroup, static::$_validEggGroups))
-            throw new \InvalidArgumentException("Egg group '{$eggGroup}' is invalid");
+            throw new InvalidEggGroup($eggGroup);
         $this->_eggGroup = $eggGroup;
     }
 

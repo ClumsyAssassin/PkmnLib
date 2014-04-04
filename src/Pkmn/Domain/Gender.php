@@ -2,6 +2,8 @@
 
 namespace Pkmn\Domain;
 
+use Pkmn\Exception\InvalidGender;
+
 class Gender
 {
     const MALE = 'male';
@@ -21,7 +23,7 @@ class Gender
     public function __construct($gender)
     {
         if (!in_array($gender, static::$_validGenders))
-            throw new \InvalidArgumentException("Gender '{$gender}' is invalid");
+            throw new InvalidGender();
         $this->_gender = $gender;
     }
 
