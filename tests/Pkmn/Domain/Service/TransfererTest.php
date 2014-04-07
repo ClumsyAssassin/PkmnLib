@@ -2,13 +2,32 @@
 
 namespace Pkmn\Domain\Service;
 
+use Pkmn\Domain\EggGroup;
+use Pkmn\Domain\EggGroupCollection;
+use Pkmn\Domain\Gender;
+use Pkmn\Domain\Monster;
+use Pkmn\Domain\Type;
+use Pkmn\Domain\TypeCollection;
+
 class TransfererTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Transferer */
     private $_transferer;
 
+    /** @var Gender */
+    private $_gender;
+
+    /** @var EggGroupCollection */
+    private $_eggGroupCollection;
+
+    /** @var TypeCollection */
+    private $_typeCollection;
+
     protected function setUp()
     {
+        $this->_gender = new Gender(Gender::MALE);
+        $this->_eggGroupCollection = new EggGroupCollection(new EggGroup(EggGroup::MONSTER));
+        $this->_typeCollection = new TypeCollection(new Type(Type::BUG));
         $this->_transferer = new Transferer();
     }
 
@@ -58,7 +77,7 @@ class TransfererTest extends \PHPUnit_Framework_TestCase
      */
     private function _assertTransferFromGenXToGenerations($genX, $generations, $assertTrue)
     {
-        $monster = new Monster('name', 'male', $genX, array('monster'));
+        $monster = new Monster('name', $this->_gender, $genX, $this->_eggGroupCollection, $this->_typeCollection);
         foreach ($generations as $genY)
             if ($assertTrue)
                 $this->assertTrue($this->_transferer->canTransfer($monster, $genY));

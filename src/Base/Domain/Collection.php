@@ -13,6 +13,10 @@ class Collection extends \ArrayObject
             $this->_assertValidInstances($passedInput);
         else
             $passedInput = array();
+
+        if (!is_array($passedInput))
+            $passedInput = array($passedInput);
+
         parent::__construct($passedInput, $flags, $iterator_class);
     }
 
@@ -45,6 +49,14 @@ class Collection extends \ArrayObject
         parent::offsetSet($index, $newval);
     }
 
+    public function inCollection($obj)
+    {
+        foreach ($this as $value)
+            if ($obj == $value)
+                return true;
+        return false;
+    }
+
     private function _assertValidInstances($values)
     {
         if (is_array($values))
@@ -57,6 +69,6 @@ class Collection extends \ArrayObject
     private function _assertValidInstance($value)
     {
         if (!is_a($value, $this->_validInstance))
-            throw new \InvalidArgumentException(get_class($value) . " is not an instance of " . $this->_validInstance);
+            throw new \InvalidArgumentException("Argument is not an instance of " . $this->_validInstance);
     }
 } 

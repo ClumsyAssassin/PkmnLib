@@ -24,7 +24,7 @@ class Monster
     /** @var EggGroupCollection */
     private $_eggGroups;
 
-    /** @var array */
+    /** @var TypeCollection */
     private $_types;
 
     /**
@@ -37,7 +37,6 @@ class Monster
     public function __construct($name, Gender $gender, $generation, EggGroupCollection $eggGroups, TypeCollection $types)
     {
         $this->_assertParametersAreValid($name, $gender, $generation, $eggGroups, $types);
-
         $this->_name = $name;
         $this->_gender = $gender;
         $this->_generation = $generation;
@@ -70,10 +69,10 @@ class Monster
     }
 
     /**
-     * @param array $eggGroups
-     * @throws InvalidArgumentException
+     * @param EggGroupCollection $eggGroups
+     * @throws \InvalidArgumentException
      */
-    private function _assertEggGroupsWithinBounds(array $eggGroups)
+    private function _assertEggGroupsWithinBounds(EggGroupCollection $eggGroups)
     {
         $numEggGroups = count($eggGroups);
         if ($numEggGroups > self::MAX_NUM_EGG_GROUPS)
@@ -83,12 +82,25 @@ class Monster
     }
 
     /**
-     * @param string $name
-     * @param Gender $gender
-     * @param array $eggGroups
+     * @param TypeCollection $types
      * @throws \InvalidArgumentException
      */
-    private function _assertValidDitto($name, Gender $gender, array $eggGroups)
+    private function _assertTypesWithinBounds(TypeCollection $types)
+    {
+        $numTypes = count($types);
+        if ($numTypes > self::MAX_NUM_EGG_GROUPS)
+            throw new InvalidArgumentException("Number of types is more than max " . self::MAX_NUM_TYPES);
+        else if ($numTypes < self::MIN_NUM_TYPES)
+            throw new InvalidArgumentException("Number of types is less than min " . self::MIN_NUM_TYPES);
+    }
+
+    /**
+     * @param string $name
+     * @param Gender $gender
+     * @param EggGroupCollection $eggGroups
+     * @throws \InvalidArgumentException
+     */
+    private function _assertValidDitto($name, Gender $gender, EggGroupCollection $eggGroups)
     {
         if (count($eggGroups) > 1)
             throw new InvalidArgumentException("Ditto egg group cannot be combined with another egg group");
@@ -99,10 +111,10 @@ class Monster
     }
 
     /**
-     * @param array $eggGroups
+     * @param EggGroupCollection $eggGroups
      * @throws InvalidArgumentException
      */
-    private function _assertValidUndiscovered(array $eggGroups)
+    private function _assertValidUndiscovered(EggGroupCollection $eggGroups)
     {
         if (count($eggGroups) > 1)
             throw new InvalidArgumentException("Undiscovered egg group cannot be combined with another egg group");
@@ -127,22 +139,9 @@ class Monster
         $this->_assertTypesWithinBounds($types);
 
         $this->_assertEggGroupsWithinBounds($eggGroups);
-        if (in_array(EggGroup::EGG_GROUP_DITTO, $eggGroups))
+        if ($eggGroups->inCollection(EggGroup::DITTO))
             $this->_assertValidDitto($name, $gender, $eggGroups);
-        elseif (in_array(EggGroup::EGG_GROUP_UNDISCOVERED, $eggGroups))
+        elseif ($eggGroups->inCollection(EggGroup::UNDISCOVERED))
             $this->_assertValidUndiscovered($eggGroups);
-    }
-
-    /**
-     * @param array $types
-     * @throws \InvalidArgumentException
-     */
-    private function _assertTypesWithinBounds(array $types)
-    {
-        $numTypes = count($types);
-        if ($numTypes > self::MAX_NUM_EGG_GROUPS)
-            throw new InvalidArgumentException("Number of types is more than max " . self::MAX_NUM_TYPES);
-        else if ($numTypes < self::MIN_NUM_TYPES)
-            throw new InvalidArgumentException("Number of types is less than min " . self::MIN_NUM_TYPES);
     }
 }

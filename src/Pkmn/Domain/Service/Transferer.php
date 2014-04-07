@@ -3,6 +3,7 @@
 namespace Pkmn\Domain\Service;
 
 use InvalidArgumentException;
+use Pkmn\Domain\Monster;
 
 class Transferer
 {

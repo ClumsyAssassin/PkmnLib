@@ -27,10 +27,9 @@ class Type
     const FAIRY = 'fairy';
 
     /** @var array */
-    private static $_validTypes = array(self::TYPE_NORMAL, self::TYPE_FIRE, self::TYPE_FIGHTING, self::TYPE_WATER,
-        self::TYPE_FLYING, self::TYPE_GRASS, self::TYPE_POISON, self::TYPE_ELECTRIC, self::TYPE_GROUND,
-        self::TYPE_PSYCHIC, self::TYPE_ROCK, self::TYPE_ICE, self::TYPE_BUG, self::TYPE_DRAGON, self::TYPE_GHOST,
-        self::TYPE_DARK, self::TYPE_STEEL, self::TYPE_FAIRY,
+    private static $_validTypes = array(self::NORMAL, self::FIRE, self::FIGHTING, self::WATER, self::FLYING,
+        self::GRASS, self::POISON, self::ELECTRIC, self::GROUND, self::PSYCHIC, self::ROCK, self::ICE, self::BUG,
+        self::DRAGON, self::GHOST, self::DARK, self::STEEL, self::FAIRY,
     );
 
     /** @var string */

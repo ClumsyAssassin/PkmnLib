@@ -3,6 +3,7 @@
 namespace Base\Domain;
 
 use Base\Domain\Collection;
+use stdClass;
 
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,24 +17,29 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateCollectionOfObjectsWithASingleObject()
     {
-        new Collection(new \stdClass());
+        new Collection(new stdClass());
     }
 
     public function testCreateCollectionOfObjectsFromArray()
     {
-        new Collection(array(new \stdClass(), new \stdClass(), new \stdClass()));
+        new Collection(array(new stdClass(), new stdClass(), new stdClass()));
     }
 
     public function testAddingNewElementToCollection()
     {
-        $this->_collection[] = new \stdClass();
-        $this->_collection->append(new \stdClass());
+        $this->_collection[] = new stdClass();
+        $this->_collection->append(new stdClass());
     }
 
     public function testSettingAnOffset()
     {
-        $this->_collection->offsetSet(0, new \stdClass());
-        $this->_collection[0] = new \stdClass();
+        $this->_collection->offsetSet(0, new stdClass());
+        $this->_collection[0] = new stdClass();
+    }
+
+    public function testCreateCollectionWithStrings()
+    {
+        $this->setExpectedException('InvalidArgumentException');
+        new Collection('notObject');
     }
 }
- 
