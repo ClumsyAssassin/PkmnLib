@@ -101,10 +101,4 @@ class MonsterTest extends \PHPUnit_Framework_TestCase
         new Monster('name', $this->_gender, 1, $this->_eggGroupCollection,
             new TypeCollection(array(new Type(Type::BUG), new Type(Type::BUG))));
     }
-
-    public function testCanEvolveWithRequiredLevelMet()
-    {
-        $monster = new Monster('name', $this->_gender, 1, new EggGroupCollection(new EggGroup(EggGroup::FLYING)), new TypeCollection(new Type(Type::FLYING)));
-        $this->assertTrue($monster->canEvolve());
-    }
 }
