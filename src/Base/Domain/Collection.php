@@ -76,6 +76,38 @@ class Collection extends \ArrayObject
     }
 
     /**
+     * @param Collection $otherCollection
+     * @return static
+     */
+    public function diff(Collection $otherCollection)
+    {
+        $arrCopy = $this->getArrayCopy();
+        $otherCopy = $otherCollection->getArrayCopy();
+        $result = array_diff($arrCopy, $otherCopy);
+        return new static($result);
+    }
+
+    /**
+     * @param Collection $otherCollection
+     * @return static
+     */
+    public function intersect(Collection $otherCollection)
+    {
+        $arrCopy = $this->getArrayCopy();
+        $otherCopy = $otherCollection->getArrayCopy();
+        $result = array_intersect($arrCopy, $otherCopy);
+        return new static($result);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEmpty()
+    {
+        return count($this) == 0;
+    }
+
+    /**
      * @param mixed $values
      */
     private function _assertValidInstances($values)

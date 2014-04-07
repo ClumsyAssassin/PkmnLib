@@ -69,6 +69,14 @@ class Monster
     }
 
     /**
+     * @return EggGroupCollection
+     */
+    public function getEggGroups()
+    {
+        return $this->_eggGroups;
+    }
+
+    /**
      * @param EggGroupCollection $eggGroups
      * @throws \InvalidArgumentException
      */
