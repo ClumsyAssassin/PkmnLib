@@ -95,4 +95,12 @@ class BreederTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->_breeder->canBreed($monsterA, $monsterB));
         $this->assertFalse($this->_breeder->canBreed($monsterB, $monsterA));
     }
+
+    public function testCannotBreedWithGen1AndGen3Monsters()
+    {
+        $monsterA = new Monster('name', new Gender(Gender::MALE), 1, new EggGroupCollection(array(new EggGroup(EggGroup::BUG))), $this->_types);
+        $monsterB = new Monster('name', new Gender(Gender::FEMALE), 3, new EggGroupCollection(array(new EggGroup(EggGroup::BUG))), $this->_types);
+        $this->assertFalse($this->_breeder->canBreed($monsterA, $monsterB));
+        $this->assertFalse($this->_breeder->canBreed($monsterB, $monsterA));
+    }
 }

@@ -35,7 +35,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     {
         $newObj = new stdClass();
         $newObj->something = 'something';
-        $this->_collection[] = $newObj;
+        $this->_collection->append($newObj);
         $this->assertEquals($newObj, $this->_collection[1]);
     }
 
@@ -73,5 +73,19 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $this->_collection[] = $newObj;
         $this->assertEquals(3, count($this->_collection));
         $this->assertEquals(2, count($this->_collection->unique()));
+    }
+
+    public function testExchangeArray()
+    {
+        $this->assertEquals(1, count($this->_collection));
+        $this->_collection->exchangeArray(array(new stdClass(), new stdClass(), new stdClass()));
+        $this->assertEquals(3, count($this->_collection));
+    }
+
+    public function testIsEmpty()
+    {
+        $collectionA = new Collection();
+        $this->assertTrue($collectionA->isEmpty());
+        $this->assertFalse($this->_collection->isEmpty());
     }
 }

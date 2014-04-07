@@ -10,7 +10,8 @@ class Breeder
 {
     public function canBreed(Monster $monsterA, Monster $monsterB)
     {
-        return $this->_notUndiscoveredEggGroup($monsterA, $monsterB)
+        return $this->_canTransferToSameGen($monsterA, $monsterB)
+        && $this->_notUndiscoveredEggGroup($monsterA, $monsterB)
         && (
             ($this->_oppositeGenders($monsterA, $monsterB) && $this->_shareAnEggGroup($monsterA, $monsterB))
             || ($this->_isDitto($monsterA) xor $this->_isDitto($monsterB))
@@ -58,5 +59,16 @@ class Breeder
     private function _isDitto(Monster $monster)
     {
         return $monster->getEggGroups()->inCollection(EggGroup::DITTO);
+    }
+
+    /**
+     * @param Monster $monsterA
+     * @param Monster $monsterB
+     * @return bool
+     */
+    private function _canTransferToSameGen(Monster $monsterA, Monster $monsterB)
+    {
+        $transferer = new Transferer();
+        return $transferer->canTransfer($monsterA, $monsterB->getGeneration()) || $transferer->canTransfer($monsterB, $monsterA->getGeneration());
     }
 }
