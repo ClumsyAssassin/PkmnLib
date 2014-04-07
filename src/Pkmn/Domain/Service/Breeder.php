@@ -8,6 +8,11 @@ use Pkmn\Domain\Monster;
 
 class Breeder
 {
+    /**
+     * @param Monster $monsterA
+     * @param Monster $monsterB
+     * @return bool
+     */
     public function canBreed(Monster $monsterA, Monster $monsterB)
     {
         return $this->_canTransferToSameGen($monsterA, $monsterB)

@@ -77,6 +77,14 @@ class Monster
     }
 
     /**
+     * @return bool
+     */
+    public function canEvolve()
+    {
+        return true;
+    }
+
+    /**
      * @param EggGroupCollection $eggGroups
      * @throws \InvalidArgumentException
      */
