@@ -137,11 +137,34 @@ class Monster
             throw new InvalidArgumentException("Generation '{$generation}' must be an integer");
 
         $this->_assertTypesWithinBounds($types);
+        $this->_assertTypesAreUnique($types);
 
         $this->_assertEggGroupsWithinBounds($eggGroups);
+        $this->_assertEggGroupsAreUnique($eggGroups);
+
         if ($eggGroups->inCollection(EggGroup::DITTO))
             $this->_assertValidDitto($name, $gender, $eggGroups);
         elseif ($eggGroups->inCollection(EggGroup::UNDISCOVERED))
             $this->_assertValidUndiscovered($eggGroups);
+    }
+
+    /**
+     * @param TypeCollection $types
+     * @throws \InvalidArgumentException
+     */
+    private function _assertTypesAreUnique(TypeCollection $types)
+    {
+        if (count($types->unique()) !== count($types))
+            throw new InvalidArgumentException('There is a duplicate type in the list of types');
+    }
+
+    /**
+     * @param EggGroupCollection $eggGroups
+     * @throws \InvalidArgumentException
+     */
+    private function _assertEggGroupsAreUnique(EggGroupCollection $eggGroups)
+    {
+        if (count($eggGroups->unique()) !== count($eggGroups))
+            throw new InvalidArgumentException('There is a duplicate egg group in the list of egg groups');
     }
 }

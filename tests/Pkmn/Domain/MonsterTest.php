@@ -76,6 +76,12 @@ class MonsterTest extends \PHPUnit_Framework_TestCase
         new monster('name', new Gender(Gender::GENDERLESS), 1, new EggGroupCollection(array(new EggGroup(EggGroup::UNDISCOVERED), new EggGroup(EggGroup::BUG))), $this->_typeCollection);
     }
 
+    public function testCreateMonsterWithDuplicateEggGroup()
+    {
+        $this->setExpectedException('InvalidArgumentException', 'There is a duplicate egg group in the list of egg groups');
+        new Monster('name', $this->_gender, 1, new EggGroupCollection(array(new EggGroup(EggGroup::BUG), new EggGroup(EggGroup::BUG))), $this->_typeCollection);
+    }
+
     public function testCreateMonsterWithNoType()
     {
         $this->setExpectedException('InvalidArgumentException', "Number of types is less than min " . Monster::MIN_NUM_TYPES);
@@ -87,5 +93,12 @@ class MonsterTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('InvalidArgumentException', "Number of types is more than max " . Monster::MAX_NUM_TYPES);
         new Monster('name', $this->_gender, 1, $this->_eggGroupCollection,
             new TypeCollection(array(new Type(Type::NORMAL), new Type(Type::FIRE), new Type(Type::WATER))));
+    }
+
+    public function testCreateMonsterWithDuplicateType()
+    {
+        $this->setExpectedException('InvalidArgumentException', 'There is a duplicate type in the list of types');
+        new Monster('name', $this->_gender, 1, $this->_eggGroupCollection,
+            new TypeCollection(array(new Type(Type::BUG), new Type(Type::BUG))));
     }
 }

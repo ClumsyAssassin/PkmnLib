@@ -2,6 +2,8 @@
 
 namespace Base\Domain;
 
+use InvalidArgumentException;
+
 class Collection extends \ArrayObject
 {
     protected $_validInstance = '\stdClass';
@@ -49,6 +51,10 @@ class Collection extends \ArrayObject
         parent::offsetSet($index, $newval);
     }
 
+    /**
+     * @param mixed $obj
+     * @return bool
+     */
     public function inCollection($obj)
     {
         foreach ($this as $value)
@@ -57,6 +63,21 @@ class Collection extends \ArrayObject
         return false;
     }
 
+    /**
+     * @return Collection
+     */
+    public function unique()
+    {
+        $valuesSeen = array();
+        foreach ($this as $value)
+            if (!in_array($value, $valuesSeen))
+                $valuesSeen[] = $value;
+        return new static($valuesSeen);
+    }
+
+    /**
+     * @param mixed $values
+     */
     private function _assertValidInstances($values)
     {
         if (is_array($values))
@@ -66,9 +87,13 @@ class Collection extends \ArrayObject
             $this->_assertValidInstance($values);
     }
 
+    /**
+     * @param mixed $value
+     * @throws InvalidArgumentException
+     */
     private function _assertValidInstance($value)
     {
         if (!is_a($value, $this->_validInstance))
-            throw new \InvalidArgumentException("Argument is not an instance of " . $this->_validInstance);
+            throw new InvalidArgumentException("Argument is not an instance of " . $this->_validInstance);
     }
 } 
